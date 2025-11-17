@@ -158,9 +158,9 @@ type
     of nimbus:
       discard
     of beaconNode:
-      discard
+      beaconNode2 {.flatten.}: BeaconNodeCoreConf
     of executionClient:
-      discard
+      executionClient2 {.flatten.}: ExecutionClientCoreConf
 
 #!fmt: on
 

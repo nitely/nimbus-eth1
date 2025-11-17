@@ -93,6 +93,54 @@ type
       abbr: "d"
       name: "data-dir" .}: Option[OutDir]
 
+    logLevel* {.
+      separator: "\pLOGGING AND DEBUGGING OPTIONS:"
+      desc: "Sets the log level for process and topics (" & logLevelDesc & ")"
+      defaultValue: "INFO"
+      name: "log-level" .}: string
+
+    logStdout* {.
+      hidden
+      desc: "Specifies what kind of logs should be written to stdout (auto, colors, nocolors, json)"
+      defaultValueDesc: "auto"
+      defaultValue: StdoutLogKind.Auto
+      name: "log-format" .}: StdoutLogKind
+
+    numThreads* {.
+      separator: "\pPERFORMANCE OPTIONS",
+      defaultValue: 0,
+      desc: "Number of worker threads (\"0\" = use as many threads as there are CPU cores available)"
+      name: "num-threads" .}: int
+
+    metricsEnabled* {.
+      desc: "Enable the built-in metrics HTTP server"
+      defaultValue: false
+      name: "metrics" .}: bool
+
+    metricsPort* {.
+      desc: "Listening port of the built-in metrics HTTP server"
+      defaultValue: defaultMetricsServerPort
+      defaultValueDesc: $defaultMetricsServerPort
+      name: "metrics-port" .}: Port
+
+    metricsAddress* {.
+      desc: "Listening IP address of the built-in metrics HTTP server"
+      defaultValue: defaultAdminListenAddress
+      defaultValueDesc: $defaultAdminListenAddressDesc
+      name: "metrics-address" .}: IpAddress
+
+    tcpPort* {.
+      desc: "Ethereum P2P network listening TCP port"
+      defaultValue: defaultExecutionPort
+      defaultValueDesc: $defaultExecutionPort
+      name: "tcp-port" .}: Port
+
+    udpPortFlag* {.
+      desc: "Ethereum P2P network listening UDP port"
+      defaultValueDesc: "default to --tcp-port"
+      name: "udp-port" .}: Option[Port]
+
+  ExecutionClientCoreConf* = object
     era1DirFlag* {.
       desc: "Directory where era1 (pre-merge) archive can be found"
       defaultValueDesc: "<data-dir>/era1"
@@ -167,36 +215,6 @@ type
       defaultValue: NetworkParams() # the defaultValue value is set by `makeConfig`
       name: "network-params" .}: NetworkParams
 
-    logLevel* {.
-      separator: "\pLOGGING AND DEBUGGING OPTIONS:"
-      desc: "Sets the log level for process and topics (" & logLevelDesc & ")"
-      defaultValue: "INFO"
-      name: "log-level" .}: string
-
-    logStdout* {.
-      hidden
-      desc: "Specifies what kind of logs should be written to stdout (auto, colors, nocolors, json)"
-      defaultValueDesc: "auto"
-      defaultValue: StdoutLogKind.Auto
-      name: "log-format" .}: StdoutLogKind
-
-    metricsEnabled* {.
-      desc: "Enable the built-in metrics HTTP server"
-      defaultValue: false
-      name: "metrics" .}: bool
-
-    metricsPort* {.
-      desc: "Listening port of the built-in metrics HTTP server"
-      defaultValue: defaultMetricsServerPort
-      defaultValueDesc: $defaultMetricsServerPort
-      name: "metrics-port" .}: Port
-
-    metricsAddress* {.
-      desc: "Listening IP address of the built-in metrics HTTP server"
-      defaultValue: defaultAdminListenAddress
-      defaultValueDesc: $defaultAdminListenAddressDesc
-      name: "metrics-address" .}: IpAddress
-
     bootstrapNodes {.
       separator: "\pNETWORKING OPTIONS:"
       desc: "Specifies one or more bootstrap nodes(ENR or enode URL) to use when connecting to the network"
@@ -240,17 +258,6 @@ type
       defaultValueDesc: $defaultListenAddressDesc
       name: "listen-address" .}: IpAddress
 
-    tcpPort* {.
-      desc: "Ethereum P2P network listening TCP port"
-      defaultValue: defaultExecutionPort
-      defaultValueDesc: $defaultExecutionPort
-      name: "tcp-port" .}: Port
-
-    udpPortFlag* {.
-      desc: "Ethereum P2P network listening UDP port"
-      defaultValueDesc: "default to --tcp-port"
-      name: "udp-port" .}: Option[Port]
-
     maxPeers* {.
       desc: "Maximum number of peers to connect to"
       defaultValue: 25
@@ -288,12 +295,6 @@ type
       defaultValue: ClientId
       defaultValueDesc: $ClientId
       name: "agent-string" .}: string
-
-    numThreads* {.
-      separator: "\pPERFORMANCE OPTIONS",
-      defaultValue: 0,
-      desc: "Number of worker threads (\"0\" = use as many threads as there are CPU cores available)"
-      name: "num-threads" .}: int
 
     persistBatchSize* {.
       hidden
@@ -556,6 +557,8 @@ type
         argument
         desc: "One or more RLP encoded block(s) files"
         name: "blocks-file" .}: seq[InputFile]
+
+flattenedAccessors(ExecutionClientConf)
 
 func parseHexOrDec256(p: string): UInt256 {.raises: [ValueError].} =
   if startsWith(p, "0x"):
