@@ -139,6 +139,8 @@ type
       desc: "Ethereum P2P network listening UDP port"
       defaultValueDesc: "default to --tcp-port"
       name: "udp-port" .}: Option[Port]
+    
+    core* {.flatten.}: ExecutionClientCoreConf
 
   ExecutionClientCoreConf* = object
     era1DirFlag* {.
