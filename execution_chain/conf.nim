@@ -185,7 +185,7 @@ type
       defaultValueDesc: $DEFAULT_GAS_LIMIT
       name: "gas-limit" .}: uint64
 
-    network {.
+    network* {.
       separator: "\pETHEREUM NETWORK OPTIONS:"
       desc: "Name or id number of Ethereum network"
       longDesc:
@@ -199,7 +199,7 @@ type
       abbr: "i"
       name: "network" .}: seq[string]
 
-    customNetwork {.
+    customNetwork* {.
       ignore
       desc: "Use custom genesis block for private Ethereum Network (as /path/to/genesis.json)"
       defaultValueDesc: ""
@@ -217,7 +217,7 @@ type
       defaultValue: NetworkParams() # the defaultValue value is set by `makeConfig`
       name: "network-params" .}: NetworkParams
 
-    bootstrapNodes {.
+    bootstrapNodes* {.
       separator: "\pNETWORKING OPTIONS:"
       desc: "Specifies one or more bootstrap nodes(ENR or enode URL) to use when connecting to the network"
       defaultValue: @[]
@@ -225,19 +225,19 @@ type
       abbr: "b"
       name: "bootstrap-node" .}: seq[string]
 
-    bootstrapFile {.
+    bootstrapFile* {.
       desc: "Specifies a file of bootstrap Ethereum network addresses(ENR or enode URL). " &
             "Both line delimited or YAML format are supported"
       defaultValue: ""
       name: "bootstrap-file" .}: InputFile
 
-    staticPeers {.
+    staticPeers* {.
       desc: "Connect to one or more trusted peers(ENR or enode URL)"
       defaultValue: @[]
       defaultValueDesc: ""
       name: "static-peers" .}: seq[string]
 
-    staticPeersFile {.
+    staticPeersFile* {.
       desc: "Specifies a file of trusted peers addresses(ENR or enode URL). " &
             "Both line delimited or YAML format are supported"
       defaultValue: ""
@@ -308,49 +308,49 @@ type
       defaultValue: false
       name: "debug-dynamic-batch-size" .}: bool
 
-    rocksdbMaxOpenFiles {.
+    rocksdbMaxOpenFiles* {.
       hidden
       defaultValue: defaultMaxOpenFiles
       defaultValueDesc: $defaultMaxOpenFiles
       name: "debug-rocksdb-max-open-files".}: int
 
-    rocksdbWriteBufferSize {.
+    rocksdbWriteBufferSize* {.
       hidden
       defaultValue: defaultWriteBufferSize
       defaultValueDesc: $defaultWriteBufferSize
       name: "debug-rocksdb-write-buffer-size".}: int
 
-    rocksdbRowCacheSize {.
+    rocksdbRowCacheSize* {.
       hidden
       defaultValue: defaultRowCacheSize
       defaultValueDesc: $defaultRowCacheSize
       name: "debug-rocksdb-row-cache-size".}: int
 
-    rocksdbBlockCacheSize {.
+    rocksdbBlockCacheSize* {.
       hidden
       defaultValue: defaultBlockCacheSize
       defaultValueDesc: $defaultBlockCacheSize
       name: "debug-rocksdb-block-cache-size".}: int
 
-    rdbVtxCacheSize {.
+    rdbVtxCacheSize* {.
       hidden
       defaultValue: defaultRdbVtxCacheSize
       defaultValueDesc: $defaultRdbVtxCacheSize
       name: "debug-rdb-vtx-cache-size".}: int
 
-    rdbKeyCacheSize {.
+    rdbKeyCacheSize* {.
       hidden
       defaultValue: defaultRdbKeyCacheSize
       defaultValueDesc: $defaultRdbKeyCacheSize
       name: "debug-rdb-key-cache-size".}: int
 
-    rdbBranchCacheSize {.
+    rdbBranchCacheSize* {.
       hidden
       defaultValue: defaultRdbBranchCacheSize
       defaultValueDesc: $defaultRdbBranchCacheSize
       name: "debug-rdb-branch-cache-size".}: int
 
-    rdbPrintStats {.
+    rdbPrintStats* {.
       hidden
       desc: "Print RDB statistics at exit"
       name: "debug-rdb-print-stats".}: bool
@@ -413,7 +413,7 @@ type
         defaultValue: false
         name: "rpc" .}: bool
 
-      rpcApi {.
+      rpcApi* {.
         desc: "Enable specific set of RPC API (available: eth, debug, admin)"
         defaultValue: @[]
         defaultValueDesc: $RpcFlag.Eth
@@ -424,7 +424,7 @@ type
         defaultValue: false
         name: "ws" .}: bool
 
-      wsApi {.
+      wsApi* {.
         desc: "Enable specific set of Websocket RPC API (available: eth, debug, admin)"
         defaultValue: @[]
         defaultValueDesc: $RpcFlag.Eth
