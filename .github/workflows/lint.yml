@@ -61,8 +61,8 @@ jobs:
         if: ${{ !cancelled() }} && github.event_name == 'pull_request'
         run: |
           while read -r file; do
-            commit="$(git -C "$file" rev-parse HEAD)"
-            commit_date=$(TZ=UTC0 git -C "$file" show -s --format='%cd' --date=iso-local HEAD)
+            commit="$(git rev-parse ":$file")"
+            commit_date=$(TZ=UTC0 git -C "$file" show -s --format='%cd' --date=iso-local "$commit")
             if ! branch="$(git config -f .gitmodules --get "submodule.$file.branch")"; then
               echo "Submodule '$file': '.gitmodules' lacks 'branch' entry"
               exit 2
