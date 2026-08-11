@@ -414,7 +414,8 @@ eest_benchmark_test: | build deps eest_benchmark
 eest_full_test: | build deps eest
 	echo -e $(BUILD_MSG) "build/$@" && \
 		$(ENV_SCRIPT) nim c $(NIM_PARAMS) -d:chronicles_log_level=FATAL -o:build/$@ "tests/eest/all_eest_tests.nim"
-	build/$@
+	echo -e "\\x1B[92mRunning:\\x1B[39m" "build/$@" && \
+		build/$@
 
 eest_tool_test: | build deps eest
 	echo -e $(BUILD_MSG) "build/$@" && \
