@@ -32,12 +32,21 @@ export
 
 type
   FixedBytes[N: static int] = engine_api_types.FixedBytes[N]
+  RpcErrorResponse = object
+    code: int
+    message: string
+    data: Opt[JsonString]
+
+proc toRpcErrorResponse(exc: ref RpcAnyServerError): string =
+  Json.encode(RpcErrorResponse(code: exc.code, message: exc.msg, data: exc.data))
 
 template wrapTry(body: untyped) =
   try:
     body
   except ValueError as e:
     return err(e.msg)
+  except RpcAnyServerError as ex:
+    return err(toRpcErrorResponse(ex))
   except JsonRpcError as ex:
     return err(ex.msg)
   except JsonReaderError as ex:
