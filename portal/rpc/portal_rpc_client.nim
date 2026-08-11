@@ -8,7 +8,6 @@
 {.push raises: [], gcsafe.}
 
 import
-  json_serialization,
   chronos,
   stew/byteutils,
   results,
