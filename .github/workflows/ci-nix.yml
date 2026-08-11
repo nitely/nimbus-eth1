@@ -24,10 +24,10 @@ jobs:
 
         include:
           - system: aarch64-darwin
-            runs_on: [self-hosted, macOS, ARM64]
+            runs_on: [macOS, ARM64]
 
           - system: x86_64-linux
-            runs_on: [self-hosted, Linux, X64]
+            runs_on: [Linux, X64]
 
     steps:
       - uses: actions/checkout@v5
